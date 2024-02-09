@@ -1,0 +1,57 @@
+| {% extends 'core.tpl' %}
+
+
+
+
+|{% block home_recipe %}
+.container 
+    .row 
+        .col-sm-3 
+            |{% if user.is_authenticated %}
+            span авторизован
+            
+            |{% else %}
+            span не авторизован
+            a(href="{% url 'recipes_create' %}") Добавить рецепт
+            
+            |{% endif %}
+        .col-sm-9 
+            .row
+                |   {% for r in recipes %}
+                article.shortstory.col-sm-4
+                    .rtin-single-post
+                        .rtin-img
+                            img.post-image(src="{{ r.images.url }}", alt="{{ r.title }}")
+                            .dropdown
+                                a#dropEdit.edit_link(href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false")
+                                    i.fa-regular.fa-ellipsis
+                                ul.dropdown-menu(aria-labelledby="dropEdit")
+                                    |{% if r.author == request.user %}
+                                    li.dropdown-item
+                                        a(href="/") Добавить в книгу
+                                    li.dropdown-item
+                                        a(href="/") Пожаловаться
+                                    li.dropdown-item
+                                        a(href="/") Редактировать
+                                    li.dropdown-item
+                                        a(href="/") Удалить
+                                    | {% elif request.user.is_superuser %}
+                                    li.dropdown-item
+                                        a(href="/") Добавить в книгу
+                                    li.dropdown-item
+                                        a(href="/") Пожаловаться
+                                    li.dropdown-item
+                                        a(href="/") Редактировать
+                                    li.dropdown-item
+                                        a(href="/") Удалить
+                                    |{% else %}
+                                    li.dropdown-item
+                                        a(href="/") Добавить в книгу
+                                    li.dropdown-item
+                                        a(href="/") Пожаловаться
+                                    |{% endif %}
+                        a(href="{% url 'recipes_detail' r.slug %}") {{ r.title }}
+                        
+
+                |   {% endfor %}
+|{% endblock %}
