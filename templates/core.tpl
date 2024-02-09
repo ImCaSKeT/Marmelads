@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{% static 'styles/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/styleshet.min.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
     <script>
       $(document).ready(function() {
           var groupCounter = 0;
@@ -52,7 +52,6 @@
     {% endblock %}
     {% block content %}
     {% endblock %}
-    <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/core.js' %}"></script>
