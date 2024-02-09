@@ -17,6 +17,31 @@
     <link rel="stylesheet" href="{% static 'styles/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/styleshet.min.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+          var groupCounter = 0;
+      
+          $('#add-group').click(function() {
+              groupCounter++;
+              var groupDiv = $('<div>').addClass('group');
+              var groupNameInput = $('<input>').attr('type', 'text').attr('name', 'group-' + groupCounter + '-name');
+              var addIngredientButton = $('<button>').attr('type', 'button').text('Add Ingredient');
+              var ingredientList = $('<ul>').addClass('ingredient-list');
+      
+              addIngredientButton.click(function() {
+                  var ingredientInput = $('<input>').attr('type', 'text').attr('name', 'group-' + groupCounter + '-ingredient');
+                  var listItem = $('<li>').append(ingredientInput);
+                  ingredientList.append(listItem);
+              });
+      
+              groupDiv.append($('<label>').text('Group Name:')).append(groupNameInput);
+              groupDiv.append(addIngredientButton);
+              groupDiv.append(ingredientList);
+              $('#group-container').append(groupDiv);
+          });
+      });
+    </script>
   </head>
   <body>
      {% block header %}
