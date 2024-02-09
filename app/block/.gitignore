@@ -1,0 +1,7 @@
+.idea
+.venv
+app/
+node_modules/
+gulpfile
+package
+package-lock
