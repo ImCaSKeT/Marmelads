@@ -49,19 +49,24 @@ class RecipeAdmin(nested_admin.NestedModelAdmin):
     fieldsets = [
         ("Основная информация", {
             'classes': ('suit-tab suit-tab-general',),
-            'fields': [('title', 'slug'), ('images')]
+            'fields': [('title', 'slug'),]
+        }),
+        ("Основное", {
+            'classes': ('suit-tab suit-tab-general',),
+            'fields': [('images', ), ('description_at', 'description', ),
+                       ('difficulty', 'servings',), ('cooking', 'cooking_time')]
         }),
         ("Дата создания", {
             'classes': ('suit-tab suit-tab-general',),
-            'fields': [('created_at') ]
+            'fields': [('created_at', ), ]
         }),
         ("SEO данные", {
             'classes': ('suit-tab suit-tab-general',),
-            'fields': [('description_at', 'keywords_at') ]
+            'fields': [('keywords_at', ), ]
         }),
         ("Для админов", {
             'classes': ('suit-tab suit-tab-general',),
-            'fields': [('status') ]
+            'fields': [('status', ), ]
         }),
     ]
 
@@ -86,5 +91,5 @@ class RecipeAdmin(nested_admin.NestedModelAdmin):
     def post_photo(self, recipe: Recipe):
         return format_html(f""
                            f"<div syle='width: 45px; height: 45px; position: relative;'>"
-                           f"<img src='{recipe.images.url}' style='object-fit: cover; width: 45px; height: 45px; border-radius: 16px;'  >"
+                           f"<img src='{recipe.images.url}' style='object-fit: cover; width: 45px; height: 45px; border-radius: 16px;'>"
                            f"</div>")

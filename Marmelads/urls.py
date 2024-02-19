@@ -22,6 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('_nested_admin/', include('nested_admin.urls')),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
 
     path('', include('modules.recipe.urls')),
 ]

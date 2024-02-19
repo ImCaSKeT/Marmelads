@@ -7,6 +7,7 @@ from django.forms import inlineformset_factory
 from .models import Recipe, IngredientGroup, RecipeIngredient
 
 
+
 class IngredientGroupForm(forms.ModelForm):
     class Meta:
         model = IngredientGroup
@@ -50,16 +51,11 @@ class RecipeIngredientForm(forms.ModelForm):
 
 
 
-""" Форма добавления статей на сайте
+""" Форма добавления статей на сайте """
+"""
 class RecipeCreateForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ('title', 'slug', 'images', 'ingredients', 'description_at', 'keywords_at')
-
-    name = forms.CharField()
-    date = forms.DateInput()
-    members = forms.ModelMultipleChoiceField(
-        queryset=Ingredient.objects.all(),
-        widget=forms.CheckboxSelectMultiple
-    )
-     """
+        fields = ('title', 'images', 'description_at', 'keywords_at')
+        
+"""

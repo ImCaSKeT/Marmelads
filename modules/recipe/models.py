@@ -1,9 +1,13 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models import ForeignKey
+from django_ckeditor_5.fields import CKEditor5Field
+
 from django.core import validators
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
+from django.urls import reverse
+
 #from django.core.files import ContentFile
 
 
@@ -35,10 +39,26 @@ class Recipe(DataMixins.DataMixin, models.Model):
         ('published', 'Опубликовано'),
         ('draft', 'На модерации')
     )
+    difficulty = (
+        ('легкая', 'легкая сложность'),
+        ('средняя', 'средняя сложность'),
+        ('тяжелая', 'тяжелая сложность')
+    )
+    COOCKING_TIME = (
+        ('часов', 'часов'),
+        ('минут', 'минут')
+    )
     status = models.CharField(choices=STATUS_OPTIONS, default='draft', verbose_name='Статус рецепта', max_length=10)
     images = models.FileField(upload_to=get_file_path, null=True, blank=True, verbose_name='Превью рецепта', default='images/no-images.jpg', validators=[validate_file_extension], )
     author = models.ForeignKey(to=User, verbose_name='Автор', on_delete=models.SET_DEFAULT, related_name='author_posts', default='', editable=False, )
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
+    servings = models.PositiveSmallIntegerField(default=1, validators=(
+        validators.MinValueValidator(1, message='Мин. количество порций 1'),), verbose_name='Количество порций', )
+    cooking = models.CharField(verbose_name='Время готовки', max_length=4, default='')
+    cooking_time = models.CharField(choices=COOCKING_TIME, default='hours', verbose_name='минут/часов', max_length=10)
+    difficulty = models.CharField(choices=difficulty, default='hours', verbose_name='Сложность рецепта', max_length=10)
+    description = CKEditor5Field(config_name='extends', verbose_name='Описание блюда', default='')
+
 
     class Meta:
         db_table = 'app_recipes' # Название таблицы в БД

@@ -1,0 +1,95 @@
+| {% extends 'core.tpl' %}
+
+|{% block content %}
+.container
+  .row 
+    .col-sm-9
+      article#RecipePost
+
+          ul.entry-meta
+              li.single-meta
+                i.fa-regular.fa-calendar-days
+                | {{ recipe.created_at|date:"d.m.Y" }}
+              li.single-meta
+                i.fa-regular.fa-user-chef
+                //- {% url 'profile_detail' recipe.author.profile.slug %}
+                a(href="/") 
+                  | {% if recipe.author.profile.user.first_name %}
+                  |		{{ recipe.author.profile.user.first_name }}
+                  | {% else %}
+                  |		{{ recipe.author }}
+                  | {% endif %}
+          ul.entry-meta
+              li.single-meta
+                  i.fa-regular.fa-tags
+                  //- {% url 'category' recipe.category.slug %}
+                  a(href="/") Салаты {{ recipe.category.title }} 
+                  | / 
+                  //- {% url 'group' recipe.group.slug %}
+                  a(href="/") Закуски {{ recipe.group.title }}
+              li.single-meta
+                  i.fa-sharp.fa-regular.fa-book
+                  span Американская кухня {{ recipe.nationality }}
+              li.single-meta
+                  i.fa-regular.fa-signal
+                  span {{ recipe.difficulty }}
+          
+          .item-figure
+              img.post-image(src="{{ recipe.images.url }}" alt="{{ recipe.title }}")
+
+          .item-feature
+              ul.feature_list
+                li.feature_item
+                  .feature-wrap
+                    .media
+                      .feature-icon
+                        i.fa-regular.fa-timer
+                      .media-body
+                        .feature-title Время
+                        .feature-sub-title {{ recipe.cooking }} {{ recipe.cooking_time }}
+                li.feature_item
+                  .feature-wrap
+                    .media
+                      .feature-icon
+                        i.fa-sharp.fa-regular.fa-bowl-food
+                      .media-body
+                        .feature-title Порций
+                        .feature-sub-title {{ recipe.servings }}
+                li.feature_item
+                  .feature-wrap
+                    .media
+                      .feature-icon
+                        i.fa-regular.fa-signal
+                      .media-body
+                        .feature-title Сложность
+                        .feature-sub-title {{ recipe.difficulty }}
+                li.feature_item
+                  .feature-wrap
+                    .media
+                      .feature-icon
+                        i.fa-regular.fa-eye
+                      .media-body
+                        .feature-title Просмотров
+                        .feature-sub-title {{ recipe.get_view_count }}
+          
+          |{{ recipe.description|safe }}
+
+          .row 
+              .col-sm-6 
+                  |{{ recipe.description|safe }}
+              .col-sm-6 
+                  .ingridients-wrap
+                      |{% for ing in recipe.test2.all %}
+                      h5.item-title 
+                          i.fa-regular.fa-list-check
+                          span {{ ing.title }}
+                      ul.ingredient-list
+                          |{% for nm in ing.test1.all %}
+                          li.item_list.d-flex 
+                          span.me-auto {{ nm.ingredient }}
+                          span {{ nm.amount }} {{ nm.measurement_unit }} 
+                          |{% endfor %}
+                      |{% endfor %}
+    
+    .col-sm-3
+|{% endblock %}

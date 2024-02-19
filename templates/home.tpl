@@ -4,7 +4,7 @@
 <div class="container"> 
   <div class="row"> 
     <div class="col-sm-3">
-       {% if user.is_authenticated %}<span>авторизован</span>{% else %}<span>не авторизован</span><a href="{% url 'recipes_create' %}">Добавить рецепт</a>{% endif %}</div>
+       {% if user.is_authenticated %}<span>авторизован </span><a href="{% url 'recipes_create' %}">Добавить рецепт</a>{% else %}<span>не авторизован</span><a href="{% url 'recipes_create' %}">Добавить рецепт</a>{% endif %}</div>
     <div class="col-sm-9"> 
       <div class="row">  {% for r in recipes %}
         <article class="shortstory col-sm-4">

@@ -1,0 +1,125 @@
+//----- Вид полного рецепта
+#RecipePost{
+
+    //----- Информация о рецепте над фото
+    .entry-meta{
+		padding-left: 0px;
+		line-height: 1;
+		margin: 0 0 15px;
+		display: block;
+		list-style: none;
+		.single-meta{
+			display: inline-block;
+			margin-right: 15px;
+			i{
+				color: #ff4a52;
+				margin-right: 6px;
+			}
+			a{
+				color: #909090;
+				transition: all 0.3s ease-out;
+				text-transform: capitalize;
+				&:hover{
+					color: #ff4a52;
+				}
+			}
+		}
+	}
+
+    //---- Основное фото
+    .item-figure{
+        width: 100%;
+        margin-bottom: 0px;
+        border-radius: 6px 6px 0 0 ;
+        overflow: hidden;
+        .post-image{
+            width: 100%;
+            object-fit: cover;
+            height: 440px;
+        }
+    }
+
+    //---- Блок под основным фото
+    .item-feature{
+        margin-bottom: 35px;
+        .feature_list{
+            margin-left: -1px;
+            margin-right: -1px;
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding-left: 0;
+            .feature_item{
+                margin-top: 2px;
+                flex: 1;
+                padding-left: 1px;
+                padding-right: 1px;
+                min-width: 120px;
+                .feature-wrap{
+                    background-color: #f2f2f2;
+                    display: flex;
+                    justify-content: center;
+                    height: 100%;
+                    .media{
+                        height: 100%;
+                        padding: 12px 5px;
+                        align-items: center;
+                        display: flex;
+                        .feature-icon{
+                            font-size: 24px;
+                            line-height: 1;
+                            margin-right: 10px;
+                            i{
+                                height: 30px;
+                                width: auto;
+                                transition: 0.4s;
+                                color: @color-pink;
+                            }
+                        }
+                        .media-body{
+                            text-align: center;
+                            .feature-title{
+                                font-size: 17px;
+                                color: #222;
+                                font-weight: 600;
+                                margin-bottom: 6px;
+                                line-height: 1.2;
+                            }
+                            .feature-sub-title{
+                                font-size: 17px;
+                                line-height: 1.2;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    //---- блок с ингедиентами
+    .ingridients-wrap{
+        background-color: #f8f8f8;
+        padding: 30px 30px 30px 30px;
+        margin-bottom: 30px;
+        .item-title{
+            font-weight: 700;
+            font-size: 24px;
+            color: #111111;
+            margin-bottom: 20px;
+            i{
+                color: #ff4a52;
+                margin-right: 8px;
+            }
+        }
+        .ingredient-list{
+            border-radius: 4px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            padding-left: 15px;
+            padding-right: 15px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 27px 0px rgba(0, 0, 0, 0.13);
+        }
+    }
+}

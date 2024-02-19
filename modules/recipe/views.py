@@ -1,18 +1,19 @@
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
 
 
 from modules.recipe.models import Recipe
 from .forms import RecipeForm, IngredientGroupFormSet, RecipeIngredientFormSet
-
-# Create your views here.
+# RecipeCreateForm,
 
 """  Главная страница сайта  """
+
+
 class RecipeListView(ListView):
     template_name = 'home.tpl'
     model = Recipe
     context_object_name = 'recipes'
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,21 +33,22 @@ class RecipeListView(ListView):
         return queryset
 
 
-
 class RecipesDetailView(DetailView):
     model = Recipe
-    template_name = 'modules/recipe/fullstory.tpl'
-    context_object_name = 'recipes'
+    template_name = 'modules/recipes/recipe_full.tpl'
+    context_object_name = 'recipe'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.title
+        context['description_at'] = self.object.description_at
+        context['images'] = self.object.images
         return context
 
 
+""" Представление: создание материалов на сайте  
 
 
-""" Представление: создание материалов на сайте
 class RecipeCreateView(CreateView):
     model = Recipe
     template_name = 'modules/recipes/recipe_create.tpl'
@@ -63,7 +65,10 @@ class RecipeCreateView(CreateView):
         return super().form_valid(form)
  """
 
+
+"""
 # Версия 2
+"""
 class RecipeCreateView(CreateView):
     model = Recipe
     form_class = RecipeForm
@@ -96,3 +101,4 @@ class RecipeCreateView(CreateView):
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
+
