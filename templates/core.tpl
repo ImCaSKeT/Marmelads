@@ -17,30 +17,38 @@
     <link rel="stylesheet" href="{% static 'styles/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/styleshet.min.css' %}">
-    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function() {
-          var groupCounter = 0;
+          let formCount = {{ group_formset.total_form_count }};
       
-          $('#add-group').click(function() {
-              groupCounter++;
-              var groupDiv = $('<div>').addClass('group');
-              var groupNameInput = $('<input>').attr('type', 'text').attr('name', 'group-' + groupCounter + '-name');
-              var addIngredientButton = $('<button>').attr('type', 'button').text('Add Ingredient');
-              var ingredientList = $('<ul>').addClass('ingredient-list');
-      
-              addIngredientButton.click(function() {
-                  var ingredientInput = $('<input>').attr('type', 'text').attr('name', 'group-' + groupCounter + '-ingredient');
-                  var listItem = $('<li>').append(ingredientInput);
-                  ingredientList.append(listItem);
+          $('#add-group-btn').click(function() {
+              let newForm = $('.group-form:first').clone(true);
+              newForm.find(':input').val(''); // Clear input values
+              newForm.find('.ingredient-form:not(:first)').remove(); // Remove additional ingredient forms
+              formCount++;
+              newForm.find('input, select').each(function() {
+                  let name = $(this).attr('name').replace('-0-', '-' + formCount + '-');
+                  let id = 'id_' + name;
+                  $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
               });
+              newForm.find('label').each(function() {
+                  let newFor = $(this).attr('for').replace('-0-', '-'+formCount+'-');
+                  $(this).attr('for', newFor);
+              });
+              $('.group-form:last').after(newForm);
+              return false;
+          });
       
-              groupDiv.append($('<label>').text('Group Name:')).append(groupNameInput);
-              groupDiv.append(addIngredientButton);
-              groupDiv.append(ingredientList);
-              $('#group-container').append(groupDiv);
+          $(document).on('click', '.add-ingredient-btn', function() {
+              let ingredientForm = $('.ingredient-form:first', $(this).closest('.group-form')).clone(true);
+              ingredientForm.find(':input').val('');
+              $(this).closest('.group-form').append(ingredientForm);
+              return false;
           });
       });
+      
+      
     </script>
   </head>
   <body>

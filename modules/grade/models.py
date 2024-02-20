@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-""" Модель для Ингредеентов """
+""" Модель для Ингредеентов 
 class Ingredient(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название ингредиента')
 
@@ -20,7 +20,7 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.title
-
+ """
 
 
 """ Модель для национальности рецепта """

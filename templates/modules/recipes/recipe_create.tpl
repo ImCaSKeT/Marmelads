@@ -3,31 +3,18 @@
 {% block content %}
 <div class="container"> 
   <div class="row"> 
-    <div class="col-sm-12">
+    <div class="col-sm-9">
       <div class="card mb-3 border-0 nth-shadow">
 <div class="card-body">
-<div class="card-title nth-card-title">
-<h4>Добавление статьи</h4>
-</div>
-<form method="post" action="{% url 'recipes_create' %}" enctype="multipart/form-data">{% csrf_token %}<label for="title">Name:</label>
-<input type="text" name="title" id="title">
-<br>
-<label for="images">images:</label>
-<input type="file" name="images" id="images" />
-<br>
-<label for="description_at">Description:</label>
-<textarea name="description_at" id="description_at"></textarea>
-<br>
-<label for="tkeywords_at">keywords_at:</label>
-<input type="text" name="keywords_at" id="keywords_at">
-<br />
-<div id="group-container"></div>
-<button type="button" id="add-group">Add Group</button>
-<br>
-<input type="submit" value="Submit">
-</form>
-</div>
-</div>
+<form method="post" action="{% url 'recipes_create' %}" enctype="multipart/form-data">{% csrf_token %}
+      {{ form.as_p }}<h2>Ingredient Groups</h2>{{ group_formset.management_form }}<div class="group-form">{% for form in group_formset.forms %}
+         {{ form.as_p }}<button class="add-ingredient-btn">Add Ingredient</button>
+<div class="ingredient-form">
+<input type="text" name="ingredient_name" placeholder="Ingredient Name">
+<input type="text" name="quantity" placeholder="Quantity">
+</div>{% endfor %}</div>
+<button id="add-group-btn">Add Ingredient Group</button>
+      <input class="btn_red" type="submit" value="Опубликовать рецепт"/>
     </div>
   </div>
 </div>{% endblock %}

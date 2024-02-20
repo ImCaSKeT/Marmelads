@@ -8,6 +8,7 @@ from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 from django.urls import reverse
 
+from services.slugify import unique_slugify
 #from django.core.files import ContentFile
 
 
@@ -16,7 +17,7 @@ from django.urls import reverse
 
 from services.validators import validate_file_extension
 from services import DataMixins
-from modules.grade.models import Group, Ingredient, Nationality
+from modules.grade.models import Group, Nationality
 
 User = get_user_model()
 
@@ -30,6 +31,24 @@ def get_file_path(instance, filename):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
     return os.path.join('images/thumbnails/', filename)
+
+
+
+""" Модель для Ингредеентов """
+class Ingredient(models.Model):
+    title = models.CharField(max_length=150, verbose_name='Название ингредиента')
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Ингредиент'
+        verbose_name_plural = 'Ингредиенты'
+        #db_table = 'app_recipes_ingredient'
+
+    def __unicode__(self):
+        return self.title
+
+    def __str__(self):
+        return self.title
 
 
 
@@ -65,6 +84,18 @@ class Recipe(DataMixins.DataMixin, models.Model):
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
         ordering = ['-id']
+
+    # Автоматом делаем slug если его нет.
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = unique_slugify(self, self.title)
+        super().save(*args, **kwargs)
+
+    def __unicode__(self):
+        return self.title
+
+    def __str__(self):
+        return self.title
 
     def get_absolute_url(self):
         return reverse('recipes_detail', kwargs={'slug': self.slug})

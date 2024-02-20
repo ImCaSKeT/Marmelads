@@ -5,14 +5,14 @@
 """
 from django.db import models
 from django.utils.timezone import now
-
+from django_ckeditor_5.fields import CKEditor5Field
 
 """ Добавляем поля создание и обновления модели """
 class DataMixin(models.Model):
     created_at = models.DateTimeField(default=now, verbose_name='Дата добавления')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
-    description_at = models.CharField(max_length=150, verbose_name='Description', default='',)
-    keywords_at = models.CharField(max_length=150, verbose_name='Keywords', default='',)
+    description_at = CKEditor5Field(max_length=150, verbose_name='Короткое описание', default='',)
+    keywords_at = models.CharField(max_length=150, verbose_name='Теги', default='',)
     title = models.CharField(max_length=255, verbose_name='Заголовок', default='')
     slug = models.SlugField(unique=True, max_length=50, db_index=True, null=False, blank=False, verbose_name='Ссылка')
 

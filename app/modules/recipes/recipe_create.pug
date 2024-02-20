@@ -1,37 +1,100 @@
 | {% extends 'core.tpl' %}
 
+
+
 |{% block content %}
 .container 
     .row 
-        .col-sm-12
+        .col-sm-9
             <div class="card mb-3 border-0 nth-shadow">
                 <div class="card-body">
-                    <div class="card-title nth-card-title">
-                        <h4>Добавление статьи</h4>
-                    </div>
+                    
                     <form method="post" action="{% url 'recipes_create' %}" enctype="multipart/form-data">
                         |{% csrf_token %}
-                        <label for="title">Name:</label>
-                        <input type="text" name="title" id="title">
-                        <br>
-                        <label for="images">images:</label>
-                        <input type="file" name="images" id="images" />
-                        <br>
-                        <label for="description_at">Description:</label>
-                        <textarea name="description_at" id="description_at"></textarea>
-                        <br>
-                        <label for="tkeywords_at">keywords_at:</label>
-                        <input type="text" name="keywords_at" id="keywords_at">
+                        |{{ form.as_p }}
 
-                        <br />
+                        <h2>Ingredient Groups</h2>
+                        |{{ group_formset.management_form }}
+                        <div class="group-form">
+                            |{% for form in group_formset.forms %}
+                            |    {{ form.as_p }}
+                            <button class="add-ingredient-btn">Add Ingredient</button>
+                            <div class="ingredient-form">
+                                <input type="text" name="ingredient_name" placeholder="Ingredient Name">
+                                <input type="text" name="quantity" placeholder="Quantity">
+                            </div>
+                            |{% endfor %}
+                        </div>
 
-                        <div id="group-container"></div>
-                        <button type="button" id="add-group">Add Group</button>
-                        <br>
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
-            </div>
+
+                        <button id="add-group-btn">Add Ingredient Group</button>
+
+                        //-
+                            | {{ form.media }} 
+                            | {{ form.as_p }}
+
+                        input.btn_red(type="submit" value="Опубликовать рецепт")
+
+                        //--
+                            .mb-3
+                                label(for="RecipeTitle") Название рецепта
+                                input#RecipeTitle.form-control(type="text", name="title", placeholder="")
+                            .mb-3
+                                label(for="RecipeImages") Фото рецепта
+                                input#RecipeImages.form-control(type="file", name="images", placeholder="")
+                            .mb-3
+                                label(for="RecipeDescriptionAT") Короткое описание
+                                textarea#RecipeDescriptionAT.form-control(type="text", name="description_at", placeholder="", rows="3")
+                            .mb-3
+                                label(for="RecipeDescription") Полное описание
+                                textarea#RecipeDescription.form-control(type="text", name="description", placeholder="", rows="3")
+
+                                
+
+
+                            .mb-3
+                                .row 
+                                    .col-sm-6 
+                                        .additional-input-box
+                                            i.fa-regular.fa-signal
+                                        //- input#RecipeImages.form-control(type="text", name="difficulty", placeholder="")
+                                        
+                                        //-select(name="difficulty" id="difficulty")
+                                            |{% for diff_option in difficultys %}
+                                            option(value="{{ diff_option.0 }}" ) {{ diff_option.1 }}
+                                            |{% endfor %}
+                                        |{{ form.difficulty.label_tag }}
+                                        |{{ form.difficulty }}
+                                .col-sm-6 
+                                    .additional-input-box
+                                        i.fa-sharp.fa-regular.fa-bowl-food
+                                        |{{ form.servings.label_tag }}
+                                        input#RecipeImages.form-control(type="text", name="servings", placeholder="")
+                                .col-sm-6 
+                                    .additional-input-box
+                                        i.fa-regular.fa-timer
+                                        |{{ form.cooking.label_tag }}
+                                        input#RecipeImages.form-control(type="text", name="cooking", placeholder="")
+                                .col-sm-6
+                                    .additional-input-box
+                                        i.fa-regular.fa-timer
+                                        |{{ form.cooking_time }}
+                                        //- select(name="cooking_time" id="id_cooking_time")
+                                            |{% for time_option in cooking_time_options %}
+                                            option(value="{{ time_option.0 }}" ) {{ time_option.1 }}
+                                            |{% endfor %}
+                            .mb-3
+                                label(for="RecipeTitle") Теги рецепта
+                                input#RecipeTitle.form-control(type="text", name="keywords_at", placeholder="")
+                            
+                            .md-3
+                                label#id_ingredient_groups Группы ингредиентов
+                                input#id_ingredient_groups(type="text", name="ingredient_groups")
+                                .group_fields_container
+                                button#add_group_button(type="button") Add Group
+                            
+
+                        
 
 
 |{% endblock %}
